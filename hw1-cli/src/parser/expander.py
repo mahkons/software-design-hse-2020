@@ -12,11 +12,11 @@ class Expander(object):
         return self._expand_variables(expression)
 
     def _expand_variables(self, expression: str) -> str:
-        for index in find_in_double_quotes(expression, "$")[::-1]:
-            print(index)
+        for index in find_in_double_quotes(expression, '$')[::-1]:
             name = ''
-            while index < len(expression) and re.match(r'[a-z]|[A-Z]|[0-9]|_', expression[index]):
-                name += expression[index]
-            print(name)
+            i = index + 1
+            while i < len(expression) and re.match(r'[a-z]|[A-Z]|[0-9]|_', expression[i]):
+                name += expression[i]
+                i += 1
             expression = expression[:index] + self.environment.get_variable(name) + expression[index + len(name) + 1:]
         return expression
