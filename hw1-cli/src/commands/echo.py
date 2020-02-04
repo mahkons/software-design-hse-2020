@@ -7,4 +7,4 @@ class Echo(Command):
         super().__init__(args)
 
     def execute(self, stdin) -> str:
-        return ' '.join(self.args)
+        return ' '.join(self.args) + '\n'
