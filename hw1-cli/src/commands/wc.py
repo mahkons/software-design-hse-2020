@@ -1,4 +1,5 @@
-from typing import List, Tuple
+from typing import List
+
 from src.commands.command import Command
 
 
@@ -24,4 +25,4 @@ class Wc(Command):
         lines = text.count('\n') + 1
         words = len(text.split())
         chars = len(text)
-        return '    {0}    {1}    {2}'.format(lines, words, chars)
+        return f'    {lines}    {words}    {chars}'
