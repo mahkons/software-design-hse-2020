@@ -1,6 +1,7 @@
 import re
 from typing import List
 
+from src.CLI_exception import CLIException
 from src.commands.cat import Cat
 from src.commands.echo import Echo
 from src.commands.exit import Exit
@@ -26,9 +27,10 @@ class Executor(object):
         if len(commands) == 1 and len(commands[0]) == 1 and re.match(self.ASSIGNMENT_PATTERN, commands[0][0]):
             name, value = commands[0][0].split('=')
             self.environment.set_variable(name, value)
+            return
 
         stdin = None
-        for command in commands[::-1]:
+        for command in commands:
             status, new_stdin = self._call_command(command, stdin)
             if not status:
                 return new_stdin
@@ -45,6 +47,6 @@ class Executor(object):
             else:
                 external = External(command)
                 new_stdin = external.execute(stdin)
-        except Exception as exception:
+        except CLIException as exception:
             return False, exception
         return True, new_stdin
