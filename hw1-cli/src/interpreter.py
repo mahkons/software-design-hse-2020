@@ -17,7 +17,8 @@ class Interpreter(object):
                 sys.stdout.write(f'{self._get_current_directory()}$ ')
                 sys.stdout.flush()
 
-                stdout = self.executor.execute(self.parser.parse(sys.stdin.readline()[:-1]))
+                # print(self.parser.parse(sys.stdin.readline()))
+                stdout = self.executor.execute(self.parser.parse(sys.stdin.readline()))
                 sys.stdout.write(stdout)
             except KeyboardInterrupt:
                 sys.stdout.write('\n')

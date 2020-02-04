@@ -23,11 +23,11 @@ class Executor(object):
     def __init__(self, environment: Environment):
         self.environment = environment
 
-    def execute(self, commands: List[List[str]]):
+    def execute(self, commands: List[List[str]]) -> str:
         if len(commands) == 1 and len(commands[0]) == 1 and re.match(self.ASSIGNMENT_PATTERN, commands[0][0]):
             name, value = commands[0][0].split('=')
             self.environment.set_variable(name, value)
-            return
+            return '\n'
 
         stdin = None
         for command in commands:
@@ -37,7 +37,9 @@ class Executor(object):
             else:
                 stdin = new_stdin
         if stdin is not None:
-            return
+            return stdin
+        else:
+            return '\n'
 
     def _call_command(self, command: List[str], stdin: str) -> (bool, str):
         try:
