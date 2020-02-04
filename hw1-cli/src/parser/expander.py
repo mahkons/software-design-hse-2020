@@ -5,10 +5,23 @@ from src.parser.parse_utils import find_in_double_quotes
 
 
 class Expander(object):
+    """
+    Class, performing all expansions on the command line
+    Now only parameter expansion performed
+    """
     def __init__(self, environment: Environment):
+        """
+        Initializes the environment
+        :param environment: environment with variables
+        """
         self.environment = environment
 
     def expand(self, expression: str) -> str:
+        """
+        Does all expansions
+        :param expression: command line to do expansions on
+        :return: expanded command line
+        """
         return self._expand_variables(expression)
 
     def _expand_variables(self, expression: str) -> str:

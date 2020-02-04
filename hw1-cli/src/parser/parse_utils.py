@@ -1,9 +1,19 @@
+"""
+Module with some useful parsing functions
+"""
+
 import re
 from typing import List, Pattern
 
 
 def find_in_double_quotes(text: str, symbol: str) -> List[int]:
-    quotes_state = QuotesState(False, False)
+    """
+    Finds all occurrences of the symbol in the given text
+    :param text: text to find symbol in
+    :param symbol: symbol to look for
+    :return: list of symbol occurrences in the given text
+    """
+    quotes_state = _QuotesState(False, False)
     indices = []
     for (index, character) in enumerate(text):
         quotes_state.change_state(character)
@@ -13,7 +23,13 @@ def find_in_double_quotes(text: str, symbol: str) -> List[int]:
 
 
 def clever_split(text: str, pattern: Pattern[str]) -> List[str]:
-    quotes_state = QuotesState(False, False)
+    """
+    Splits given text by the symbols, which are not in quotes
+    :param text: text to split
+    :param pattern: pattern to split by
+    :return: splitted text
+    """
+    quotes_state = _QuotesState(False, False)
     indices = []
     for (index, character) in enumerate(text):
         quotes_state.change_state(character)
@@ -28,7 +44,12 @@ def clever_split(text: str, pattern: Pattern[str]) -> List[str]:
 
 
 def clean_from_quotes(word: str) -> str:
-    quotes_state = QuotesState(False, False)
+    """
+    Removes unescaped occurrences of ' and "
+    :param word: word to clean from quotes
+    :return: clean word
+    """
+    quotes_state = _QuotesState(False, False)
     result = ''
     for (index, character) in enumerate(word):
         if (character == '\"' or character == '\'') and quotes_state.change_state(character):
@@ -38,7 +59,7 @@ def clean_from_quotes(word: str) -> str:
     return result
 
 
-class QuotesState(object):
+class _QuotesState(object):
 
     def __init__(self, in_single_quotes: bool, in_double_quotes: bool):
         self.in_double_quotes = in_double_quotes
