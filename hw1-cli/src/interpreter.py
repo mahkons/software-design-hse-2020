@@ -28,3 +28,8 @@ class Interpreter(object):
         if working_dir.find(home) == 0 and (len(home) == len(working_dir) or working_dir[len(home)] == '/'):
             working_dir = working_dir.replace(home, '~')
         return working_dir
+
+
+if __name__ == '__main__':
+    interpreter = Interpreter()
+    interpreter.interpret()

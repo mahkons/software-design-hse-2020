@@ -1,5 +1,6 @@
 from typing import List
 
+from src.CLI_exception import CLIException
 from src.commands.command import Command
 
 
@@ -15,4 +16,4 @@ class Cat(Command):
             with open(self.args[0], 'r') as fin:
                 return fin.read()
         except IOError as exception:
-            raise Exception("cat: " + exception)
+            raise CLIException("cat: " + exception)

@@ -1,5 +1,7 @@
 import os
 from typing import List, Optional
+
+from src.CLI_exception import CLIException
 from src.commands.command import Command
 
 
@@ -14,9 +16,10 @@ class External(Command):
             if stdin is None:
                 proc = os.subprocess.run([self.args[0], *(self.args[1:])], stdout=os.subprocess.PIPE)
             else:
-                proc = os.subprocess.run([self.args[0], *(self.args[1:])], stdout=os.subprocess.PIPE, input=stdin.encode('utf-8'))
+                proc = os.subprocess.run([self.args[0], *(self.args[1:])], stdout=os.subprocess.PIPE,
+                                         input=stdin.encode('utf-8'))
         except os.subprocess.CalledProcessError as e:
-            raise Exception(self.args[0] + ': ' + e.stderr.decode('utf-8'))
+            raise CLIException(self.args[0] + ': ' + e.stderr.decode('utf-8'))
         except FileNotFoundError:
-            raise Exception(self.args[0] + ': command not found')
+            raise CLIException(self.args[0] + ': command not found')
         return proc.stdout.decode('utf-8')
