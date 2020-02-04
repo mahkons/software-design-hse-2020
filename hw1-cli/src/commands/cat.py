@@ -5,11 +5,24 @@ from src.commands.command import Command
 
 
 class Cat(Command):
+    """
+    Cat command
+    Reads and then writes file sequence
+    """
 
     def __init__(self, args: List[str]):
+        """
+        Initializes command with args
+        :param args: list of tokens
+        """
         super().__init__(args)
 
     def execute(self, stdin: Optional[str]) -> str:
+        """
+        Executes 'cat' command with given input
+        :param stdin: command input, used then there're no arguments
+        :return: concatenated content of the files
+        """
         if len(self.args) == 0 and stdin is not None:
             return stdin
         result = ''
