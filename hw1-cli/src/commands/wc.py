@@ -1,3 +1,4 @@
+import os
 from typing import List, Tuple, Optional
 
 from src.CLI_exception import CLIException
@@ -15,18 +16,20 @@ class Wc(Command):
             result = []
             total_lines = total_words = total_chars = 0
             for filename in self.args:
-                try:
-                    with open(self.args[0], 'r') as fin:
+                if os.path.isfile(filename):
+                    with open(filename, 'r') as fin:
                         lines, words, chars = self._get_statistics(fin.read())
-                        result.append(self._get_formatted_statistics(lines, words, chars, filename) + ' ' + filename)
+                        result.append(self._get_formatted_statistics(lines, words, chars, filename))
                         total_lines += lines
                         total_words += words
                         total_chars += chars
-                except IOError as exception:
-                    raise CLIException("wc: " + exception)
+                elif os.path.isdir(filename):
+                    result += f'wc: {filename}: Is a directory\n' + self._get_formatted_statistics(0, 0, 0, filename)
+                else:
+                    result += f'wc: {filename}: No such file or directory\n'
             if len(self.args) > 1:
                 result.append(self._get_formatted_statistics(total_lines, total_words, total_chars, 'total'))
-            return '\n'.join(result)
+            return ''.join(result)
 
     @staticmethod
     def _get_statistics(text: str) -> Tuple[int, int, int]:
@@ -38,6 +41,6 @@ class Wc(Command):
     @staticmethod
     def _get_formatted_statistics(lines: int, words: int, chars: int, name: Optional[str] = None) -> str:
         if name is not None:
-            return f'    {lines}    {words}    {chars} {name}'
+            return f'    {lines}    {words}    {chars} {name}\n'
         else:
-            return f'    {lines}    {words}    {chars}'
+            return f'    {lines}    {words}    {chars}\n'
