@@ -1,5 +1,5 @@
 import sys
-from typing import List
+from typing import List, Optional
 from src.commands.command import Command
 
 
@@ -15,7 +15,7 @@ class Exit(Command):
         """
         super().__init__(args)
 
-    def execute(self, stdin) -> None:
+    def execute(self, stdin: Optional[str]) -> None:
         """
         Executes 'exit' command
         :param stdin: command input (always ignored)

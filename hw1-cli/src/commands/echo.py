@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from src.commands.command import Command
 
 
@@ -14,7 +14,7 @@ class Echo(Command):
         """
         super().__init__(args)
 
-    def execute(self, stdin) -> str:
+    def execute(self, stdin: Optional[str]) -> str:
         """
         Executes 'echo' command with given input (input is always ignored)
         :param stdin: command input

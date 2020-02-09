@@ -1,15 +1,27 @@
 import os
 from typing import List, Tuple, Optional
 
-from src.CLI_exception import CLIException
 from src.commands.command import Command
 
 
 class Wc(Command):
+    """
+    Wc command
+    Writes newline count, word count, and chars count of each file
+    """
     def __init__(self, args: List[str]):
+        """
+        Initializes command with args
+        :param args: list of tokens (files names)
+        """
         super().__init__(args)
 
-    def execute(self, stdin) -> str:
+    def execute(self, stdin: Optional[str]) -> str:
+        """
+        Executes 'wc' command with given input
+        :param stdin: command input
+        :return: newline count, word count, and chars count of each file
+        """
         if len(self.args) == 0 and stdin is not None:
             return self._get_formatted_statistics(*self._get_statistics(stdin))
         else:
