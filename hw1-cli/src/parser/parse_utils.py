@@ -13,7 +13,7 @@ def find_in_double_quotes(text: str, symbol: str) -> List[int]:
     :param symbol: symbol to look for
     :return: list of symbol occurrences in the given text
     """
-    quotes_state = _QuotesState(False, False)
+    quotes_state = QuotesState(False, False)
     indices = []
     for (index, character) in enumerate(text):
         quotes_state.change_state(character)
@@ -29,7 +29,7 @@ def clever_split(text: str, pattern: Pattern[str]) -> List[str]:
     :param pattern: pattern to split by
     :return: splitted text
     """
-    quotes_state = _QuotesState(False, False)
+    quotes_state = QuotesState(False, False)
     indices = []
     for (index, character) in enumerate(text):
         quotes_state.change_state(character)
@@ -49,7 +49,7 @@ def clean_from_quotes(word: str) -> str:
     :param word: word to clean from quotes
     :return: clean word
     """
-    quotes_state = _QuotesState(False, False)
+    quotes_state = QuotesState(False, False)
     result = ''
     for (index, character) in enumerate(word):
         if (character == '\"' or character == '\'') and quotes_state.change_state(character):
@@ -59,13 +59,26 @@ def clean_from_quotes(word: str) -> str:
     return result
 
 
-class _QuotesState(object):
+class QuotesState(object):
+    """
+    Stores quotes state
+    """
 
     def __init__(self, in_single_quotes: bool, in_double_quotes: bool):
+        """
+        Initializes state
+        :param in_single_quotes: is cursor in single quotes
+        :param in_double_quotes: is cursor in double quotes
+        """
         self.in_double_quotes = in_double_quotes
         self.in_single_quotes = in_single_quotes
 
     def change_state(self, character: str) -> bool:
+        """
+        Changes state with current character
+        :param character: current character
+        :return: if the state changes
+        """
         if character == '\"' and not self.in_single_quotes:
             self.in_double_quotes = not self.in_double_quotes
             return True

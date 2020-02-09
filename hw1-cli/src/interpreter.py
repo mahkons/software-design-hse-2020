@@ -6,18 +6,27 @@ from src.parser.parser import Parser
 
 
 class Interpreter(object):
+    """
+    Main class, interacting with user
+    """
     def __init__(self):
+        """
+        Initializes interpreter
+        """
         self.environment = Environment()
         self.parser = Parser(self.environment)
         self.executor = Executor(self.environment)
 
     def interpret(self):
+        """
+        Emulates bash shell
+        Reads lines, parses them into commands and tokens and executes commands
+        """
         while True:
             try:
                 sys.stdout.write(f'{self._get_current_directory()}$ ')
                 sys.stdout.flush()
 
-                # print(self.parser.parse(sys.stdin.readline()))
                 stdout = self.executor.execute(self.parser.parse(sys.stdin.readline()))
                 sys.stdout.write(stdout)
             except KeyboardInterrupt:

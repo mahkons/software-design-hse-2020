@@ -1,5 +1,5 @@
 import os
-from typing import *
+from typing import Dict
 
 
 class Environment(object):
@@ -35,5 +35,4 @@ class Environment(object):
         elif os.environ.get(name) is not None:
             return os.environ.get(name)
         else:
-            raise Exception("Variable not found: " + name)
-
+            return ''
