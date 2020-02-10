@@ -4,8 +4,8 @@ from src.commands.cat import Cat
 
 class CatTestCase(unittest.TestCase):
 
-    short_file_path = '../resources/short'
-    long_file_path = '../resources/long'
+    short_file_path = 'resources/short'
+    long_file_path = 'resources/long'
 
     def test_short_stdin(self):
         cat = Cat([])
@@ -34,9 +34,9 @@ class CatTestCase(unittest.TestCase):
         self.assertEqual(stdin1 + stdin2, cat.execute(None))
 
     def test_directory(self):
-        directory_path = '../resources'
+        directory_path = 'resources'
         cat = Cat([directory_path])
-        self.assertEqual('cat: ../resources: Is a directory\n', cat.execute(None))
+        self.assertEqual('cat: resources: Is a directory\n', cat.execute(None))
 
     def test_file_not_exist(self):
         file_path = 'kek'
