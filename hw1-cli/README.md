@@ -41,4 +41,4 @@ Some example text
 
 Все команды реализованы как отдельные классы — наследники абстрактного класса Command
 
-![Architecture](hw1-cli/docs/diagram.jpg)
+![Architecture](docs/diagram.jpg)
