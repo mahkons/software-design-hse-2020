@@ -1,6 +1,8 @@
+from typing import List
+
 from src.parser.splitter import Splitter
 from src.parser.expander import Expander
-from src.environment import Environment, List
+from src.environment import Environment
 
 
 class Parser(object):

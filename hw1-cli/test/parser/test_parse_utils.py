@@ -4,7 +4,7 @@ from src.parser.parse_utils import *
 
 class ParseUtilsTestCase(unittest.TestCase):
     def test_quotes_state(self):
-        quotes_state = _QuotesState(False, False)
+        quotes_state = QuotesState(False, False)
         quotes_state.change_state('\'')
         self.assertEqual(quotes_state.in_single_quotes, True)
         self.assertEqual(quotes_state.in_double_quotes, False)
