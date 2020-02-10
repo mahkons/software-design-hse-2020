@@ -3,7 +3,7 @@ from src.commands.pwd import Pwd
 
 
 class PwdTestCase(unittest.TestCase):
-    directory_path = 'hw1-cli/test/commands\n'
+    directory_path = 'hw1-cli\n'
 
     def test_without_args_without_stdin(self):
         pwd = Pwd([])

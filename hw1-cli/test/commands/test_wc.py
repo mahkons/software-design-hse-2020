@@ -3,11 +3,11 @@ from src.commands.wc import Wc
 
 
 class WcTestCase(unittest.TestCase):
-    short_file_path = '../resources/short'
-    long_file_path = '../resources/long'
+    short_file_path = 'test/resources/short'
+    long_file_path = 'test/resources/long'
 
-    out_short = '    1    1    3 ../resources/short\n'
-    out_long = '    3    3    15 ../resources/long\n'
+    out_short = '    1    1    3 test/resources/short\n'
+    out_long = '    3    3    15 test/resources/long\n'
 
     def test_short_stdin(self):
         wc = Wc([])
@@ -32,9 +32,9 @@ class WcTestCase(unittest.TestCase):
         self.assertEqual(self.out_short + self.out_long + '    4    4    18 total\n', wc.execute(None))
 
     def test_directory(self):
-        directory_path = '../resources'
+        directory_path = 'test/resources'
         wc = Wc([directory_path])
-        self.assertEqual('wc: ../resources: Is a directory\n    0    0    0 ../resources\n', wc.execute(None))
+        self.assertEqual('wc: test/resources: Is a directory\n    0    0    0 test/resources\n', wc.execute(None))
 
     def test_file_not_exist(self):
         file_path = 'kek'
