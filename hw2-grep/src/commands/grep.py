@@ -40,6 +40,9 @@ class Grep(Command):
         :param stdin: command input, used then there're no files in arguments
         :return: lines containing pattern
         """
+
+        if self.exception is not None:
+            return str(self.exception)
         if len(self.files) == 0 and stdin is not None:
             return self._match(stdin)
         result = ''
@@ -95,7 +98,7 @@ class Grep(Command):
             return result + '\n'
 
     def _parse_arguments(self):
-        parser = argparse.ArgumentParser(prog='grep', add_help=False)
+        parser = _ArgumentParser(prog='grep', add_help=False)
         parser.add_argument('-i', '--ignore-case', action='store_true',
                             help='Ignore case distinctions in both the pattern and the input files')
         parser.add_argument('-w', '--word-regexp', action='store_true',
@@ -107,14 +110,26 @@ class Grep(Command):
         parser.add_argument('file', nargs='*')
 
         self.exception = None
-        conf = parser.parse_args(self.args)
 
-        self.files = conf.file
-        self.after_context = conf.after_context
-        pattern = conf.pattern
-        if conf.word_regexp:
-            pattern = r'\b' + pattern + r'\b'
-        if conf.ignore_case:
-            self.pattern = re.compile(pattern, re.IGNORECASE)
-        else:
-            self.pattern = re.compile(pattern)
+        try:
+            conf = parser.parse_args(self.args)
+
+            self.files = conf.file
+            self.after_context = conf.after_context
+            pattern = conf.pattern
+            if conf.word_regexp:
+                pattern = r'\b' + pattern + r'\b'
+            if conf.ignore_case:
+                self.pattern = re.compile(pattern, re.IGNORECASE)
+            else:
+                self.pattern = re.compile(pattern)
+        except Exception as e:
+            self.exception = e
+
+
+class _ArgumentParser(argparse.ArgumentParser):
+
+    def error(self, message):
+        message = f'{self.format_usage()}{self.prog}: {message}\n'
+        raise Exception(message)
+

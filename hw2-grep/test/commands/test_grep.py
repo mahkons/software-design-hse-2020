@@ -116,3 +116,8 @@ class GrepTestCase(unittest.TestCase):
                          '--' + '\n' +
                          colored(keksik_path, 'magenta') + colored(':', 'cyan') + colored('kek', 'red') + 'sik' + '\n',
                          grep.execute(None))
+
+    def test_error(self):
+        grep = Grep(['-z', 'kek'])
+        self.assertEqual('usage: grep [-i] [-w] [-A NUM] pattern [file [file ...]]\ngrep: unrecognized arguments: -z\n',
+                         grep.execute('kekek'))
