@@ -9,11 +9,36 @@ from src.commands.command import Command
 
 
 class Grep(Command):
+    """
+    Grep command
+    Searches with the regular expression and prints all matching lines
+    Supports flags:
+    -i, --ignore-case
+              Ignore case distinctions in  both  the  PATTERN  and  the  input
+              files.
+    -w, --word-regexp
+              Select only those  lines  containing  matches  that  form  whole
+              words.
+    -A NUM, --after-context=NUM
+              Print NUM  lines  of  trailing  context  after  matching  lines.
+              Places   a  line  containing  a  group  separator  (--)  between
+              contiguous groups of matches.
+    """
     def __init__(self, args: List[str]):
+        """
+        Initializes command with args
+        Also parses command arguments
+        :param args: list of tokens
+        """
         super().__init__(args)
         self._parse_arguments()
 
     def execute(self, stdin: Optional[str]) -> str:
+        """
+         Executes 'grep' command with given input
+        :param stdin: command input, used then there're no files in arguments
+        :return: lines containing pattern
+        """
         if self.exception is not None:
             return 'grep: ' + str(self.exception) + '\n'
         if len(self.files) == 0 and stdin is not None:
@@ -73,12 +98,11 @@ class Grep(Command):
     def _parse_arguments(self):
         parser = argparse.ArgumentParser(prog='grep', add_help=False)
         parser.add_argument('-i', '--ignore-case', action='store_true',
-                            help='Ignore case distinctions in  both  the  PATTERN  and  the  input files')
+                            help='Ignore case distinctions in both the pattern and the input files')
         parser.add_argument('-w', '--word-regexp', action='store_true',
-                            help='Select only those  lines  containing  matches  that  form  whole words')
+                            help='Select only those lines containing matches that form whole words')
         parser.add_argument('-A', '--after-context', metavar='NUM', type=int, default=None,
-                            help='Print NUM  lines  of  trailing  context  after  matching  lines. Places   a  line  '
-                                 'containing  a  group  separator  (--)  between contiguous groups of matches')
+                            help='Print NUM lines of trailing context after matching lines')
 
         parser.add_argument('pattern', type=str)
         parser.add_argument('file', nargs='*')
