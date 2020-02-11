@@ -22,11 +22,15 @@ class Grep(Command):
         for filename in self.files:
             if os.path.isfile(filename):
                 with open(filename, 'r') as fin:
-                    result += self._match(fin.read()), filename
+                    ans = self._match(fin.read(), filename)
+                    if self.after_context is not None and result != '' and ans != '':
+                        result += '--\n'
+                    result += ans
             elif os.path.isdir(filename):
                 result += f'grep: {filename}: Is a directory\n'
             else:
                 result += f'grep: {filename}: No such file or directory\n'
+        return result
 
     def _match(self, data: str, filename: Optional[str] = None) -> str:
         lines = data.split('\n')
@@ -34,15 +38,13 @@ class Grep(Command):
         for (i, line) in enumerate(lines):
             if self.pattern.search(line):
                 matched_lines.append(i)
-        print(matched_lines)
         last_matched = -1
         result = ''
         for i in matched_lines:
             if last_matched != -1 and last_matched < i and self.after_context is not None:
                 result += '--\n'
-            result += self._match_line(lines[i], filename)
             to = min(len(lines) - 1, i + self.after_context) if self.after_context is not None else i
-            for j in range(max(last_matched, i), to + 1):
+            for j in range(max(last_matched + 1, i), to + 1):
                 result += self._match_line(lines[j], filename)
             last_matched = to
         return result
@@ -62,14 +64,14 @@ class Grep(Command):
                 result = ''
             for (start, end) in matches:
                 if last_index < start:
-                    result += line[last_index:start]
+                    result += line[last_index + 1:start]
                 result += colored(line[max(start, last_index + 1): end], 'red')
                 last_index = end - 1
             result += line[last_index + 1::]
             return result + '\n'
 
     def _parse_arguments(self):
-        parser = argparse.ArgumentParser()
+        parser = argparse.ArgumentParser(prog='grep', add_help=False)
         parser.add_argument('-i', '--ignore-case', action='store_true',
                             help='Ignore case distinctions in  both  the  PATTERN  and  the  input files')
         parser.add_argument('-w', '--word-regexp', action='store_true',
