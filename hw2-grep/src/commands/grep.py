@@ -24,6 +24,7 @@ class Grep(Command):
               Places   a  line  containing  a  group  separator  (--)  between
               contiguous groups of matches.
     """
+
     def __init__(self, args: List[str]):
         """
         Initializes command with args
@@ -39,8 +40,6 @@ class Grep(Command):
         :param stdin: command input, used then there're no files in arguments
         :return: lines containing pattern
         """
-        if self.exception is not None:
-            return 'grep: ' + str(self.exception) + '\n'
         if len(self.files) == 0 and stdin is not None:
             return self._match(stdin)
         result = ''
@@ -107,12 +106,8 @@ class Grep(Command):
         parser.add_argument('pattern', type=str)
         parser.add_argument('file', nargs='*')
 
-        conf = None
         self.exception = None
-        try:
-            conf = parser.parse_args(self.args)
-        except Exception as e:
-            self.exception = e
+        conf = parser.parse_args(self.args)
 
         self.files = conf.file
         self.after_context = conf.after_context
