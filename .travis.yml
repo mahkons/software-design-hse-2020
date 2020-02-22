@@ -1,5 +1,7 @@
 language: python
 python:
   - "3.7"
-install: pip install termcolor
+install:
+  - pip3 install termcolor
+  - pip3 install pyfakefs
 script: for dir in */; do (cd "$dir" && (python3 -m unittest discover test || python -m unittest discover test)); done
