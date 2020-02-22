@@ -3,7 +3,7 @@ from src.commands.pwd import Pwd
 
 
 class PwdTestCase(unittest.TestCase):
-    directory_path = 'hw2-grep\n'
+    directory_path = 'hw3\n'
 
     def test_without_args_without_stdin(self):
         pwd = Pwd([])
