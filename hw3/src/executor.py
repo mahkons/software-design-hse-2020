@@ -1,13 +1,7 @@
 import re
 from typing import List, Optional
 
-from src.commands.cat import Cat
-from src.commands.echo import Echo
-from src.commands.exit import Exit
-from src.commands.external import External
-from src.commands.grep import Grep
-from src.commands.pwd import Pwd
-from src.commands.wc import Wc
+from src.commands import Cat, Echo, Exit, External, Grep, Pwd, Wc, Ls, Cd
 from src.environment import Environment
 
 
@@ -22,7 +16,10 @@ class Executor(object):
                 'exit': Exit,
                 'grep': Grep,
                 'pwd': Pwd,
-                'wc': Wc}
+                'wc': Wc,
+                'ls': Ls,
+                'cd': Cd,
+                }
 
     def __init__(self, environment: Environment):
         """
