@@ -6,8 +6,8 @@ class ExternalTestCase(unittest.TestCase):
     def test_cat_with_file(self):
         short_file_path = 'test/resources/short'
         external = External(['cat', short_file_path])
-        stdin = open(short_file_path, 'r').read()
-        self.assertEqual(stdin, external.execute(None))
+        with open(short_file_path, 'r') as f:
+            self.assertEqual(f.read(), external.execute(None))
 
     def test_cat_with_stdin(self):
         external = External(['cat'])

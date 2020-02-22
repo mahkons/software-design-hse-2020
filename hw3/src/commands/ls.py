@@ -27,7 +27,6 @@ class Ls(Command):
         else:
             dirname = self.args[0]
             if os.path.isdir(dirname):
-                os.chdir(dirname)
                 dirs = os.listdir(self.args[0])
             elif os.path.isfile(dirname):
                 return f'ls: {dirname}: Is a file'
